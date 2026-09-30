@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CineMatch AI | Movie Recommendations</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            color: white;
+            min-height: 100vh;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-top: 40px;
+            color: #ff4757;
+        }
+
+        .subtitle {
+            margin: 15px 0 35px;
+            color: #ddd;
+            font-size: 17px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 15px 25px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #e84118;
+        }
+
+        .results {
+            margin-top: 35px;
+            text-align: left;
+        }
+
+        .results h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .movie-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .movie-card h3 {
+            color: #ff6b81;
+            margin-bottom: 10px;
+        }
+
+        .movie-card p {
+            margin: 7px 0;
+            color: #eee;
+        }
+
+        .error {
+            margin-top: 20px;
+            color: #ffb3b3;
+            font-size: 17px;
+        }
+
+        footer {
+            margin-top: 50px;
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🎬 CineMatch AI</h1>
+
+        <p class="subtitle">
+            Discover your next favourite movie with Artificial Intelligence
+        </p>
+
+        <form method="POST" class="search-box">
+
+            <input
+                type="text"
+                name="movie_name"
+                placeholder="Enter a movie name..."
+                value="{{ searched_movie }}"
+                required
+            >
+
+            <button type="submit">
+                Find Movies
+            </button>
+
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if recommendations %}
+
+            <div class="results">
+
+                <h2>Movies similar to "{{ searched_movie }}"</h2>
+
+                {% for movie in recommendations %}
+
+                    <div class="movie-card">
+
+                        <h3>{{ loop.index }}. {{ movie.name }}</h3>
+
+                        <p>
+                            <strong>Genre:</strong> {{ movie.genre }}
+                        </p>
+
+                        <p>
+                            <strong>Year:</strong> {{ movie.year }}
+                        </p>
+
+                        <p>
+                            <strong>Similarity:</strong>
+                            {{ movie.similarity }}%
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        <footer>
+            <p>Powered by Machine Learning | CineMatch AI</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
